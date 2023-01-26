@@ -5,7 +5,7 @@ import { IRequestUser } from 'src/auth/type';
 import { ResUserInfoDto } from './dto/resUserInfo.dto';
 import { UserService } from './user.service';
 
-@ApiTags('Auth')
+@ApiTags('User')
 @Controller('user')
 export class UserController {
   constructor(private userService: UserService) {}
@@ -17,7 +17,7 @@ export class UserController {
       description: 'The token issued to the current user.',
     },
   ])
-  @ApiResponse({ status: 204, type: ResUserInfoDto })
+  @ApiResponse({ status: 200, type: ResUserInfoDto })
   @ApiResponse({ status: 403, description: 'Invalid token' })
   @ApiResponse({ status: 500, description: 'Server error' })
   @UseGuards(JwtAuthGuard)

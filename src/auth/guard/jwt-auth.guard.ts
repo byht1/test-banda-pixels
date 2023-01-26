@@ -32,8 +32,6 @@ export class JwtAuthGuard implements CanActivate {
       const user = await this.usersModel.findById(isValidToken.id);
 
       if (!user.token.includes(token)) {
-        user.token.filter((x) => x !== token);
-        user.save();
         throw new HttpException('Invalid token', HttpStatus.FORBIDDEN);
       }
 
@@ -41,8 +39,11 @@ export class JwtAuthGuard implements CanActivate {
       req.currentToken = token;
 
       return true;
-    } catch (error) {
-      await this.deleteToken(token);
+    } catch (error: any) {
+      const jwtError =
+        error.name === 'TokenExpiredError' && error.message === 'jwt expired';
+      if (jwtError) await this.deleteToken(token);
+
       throw new HttpException('Invalid token', HttpStatus.FORBIDDEN);
     }
   }

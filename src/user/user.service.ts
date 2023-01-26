@@ -9,7 +9,6 @@ export class UserService {
 
   async info(user: UserDocument, token: string): Promise<ResUserInfoDto> {
     const newToken = await this.authService.refreshToken(user._id, token);
-    console.log('🚀  UserService  newToken', newToken);
     return { id: user.id, id_type: user.id_type, token: newToken };
   }
 }

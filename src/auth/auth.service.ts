@@ -70,6 +70,10 @@ export class AuthService {
     return;
   }
 
+  async refreshToken(id: ObjectId, currentToken?: string): Promise<string> {
+    return await this.generatorToken(id, currentToken);
+  }
+
   private async bcryptPassword(password: string): Promise<string> {
     return await bcrypt.hash(password, 10);
   }
@@ -82,12 +86,26 @@ export class AuthService {
     }
   }
 
-  private async generatorToken(id: ObjectId): Promise<string> {
+  private async generatorToken(
+    id: ObjectId,
+    currentToken?: string,
+  ): Promise<string> {
     const token = this.jwtService.sign({ id });
 
     const user = await this.usersModel.findById(id);
 
-    user.token.push(token);
+    if (currentToken) {
+      const newArrayToken = [];
+
+      user.token.forEach((t) => {
+        if (t === currentToken) return newArrayToken.push(token);
+        return newArrayToken.push(t);
+      });
+
+      user.token = newArrayToken;
+    } else {
+      user.token.push(token);
+    }
     user.save();
 
     return token;

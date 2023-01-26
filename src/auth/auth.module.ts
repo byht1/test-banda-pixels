@@ -13,11 +13,12 @@ import { AuthService } from './auth.service';
     JwtModule.register({
       secret: process.env.SECRET_KEY,
       signOptions: {
-        expiresIn: '10m',
+        expiresIn: '1s',
       },
     }),
   ],
   controllers: [AuthController],
   providers: [AuthService],
+  exports: [AuthService, JwtModule, MongooseModule],
 })
 export class AuthModule {}

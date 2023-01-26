@@ -15,7 +15,7 @@ import { AuthService } from './auth.service';
 import { signUpUserDto } from './dto/signUpUser.dto';
 import { JwtAuthGuard } from './guard/jwt-auth.guard';
 import { ValidatePipe } from './pipe/validate.pipe';
-import { IRequestUser, TToken } from './type';
+import { IRequestUser } from './type';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -35,7 +35,7 @@ export class AuthController {
     return this.authService.signUpUser(body);
   }
 
-  @ApiResponse({ status: 201, schema: { token: 'ddd' } })
+  @ApiResponse({ status: 201, description: 'asses token' })
   @ApiResponse({ status: 400, description: 'Invalid data' })
   @ApiResponse({ status: 401, description: 'User does not exist' })
   @ApiResponse({ status: 401, description: 'Incorrect password' })

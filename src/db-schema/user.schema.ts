@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, ObjectId } from 'mongoose';
 import { ApiProperty } from '@nestjs/swagger';
+import { EIdType } from 'src/auth/helpers';
 
 export type UserDocument = User & Document;
 
@@ -28,7 +29,7 @@ export class User {
     enum: ['phone', 'email'],
     required: true,
   })
-  id_type: string;
+  id_type: EIdType;
 
   @ApiProperty({
     example:
